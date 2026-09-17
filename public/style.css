@@ -38,7 +38,7 @@ body {
   background-attachment: fixed, fixed, fixed;
   background-repeat: repeat-x, no-repeat, no-repeat;
   background-size: 160px 44px, cover, cover;
-  background-position: bottom center, center center, top center;
+  background-position: bottom center, center center, center center;
   color: var(--text);
   font-family: var(--font);
   overflow-x: hidden;
