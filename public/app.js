@@ -538,6 +538,12 @@ function renderFrame(idx) {
   document.getElementById("spatialTestPoints").textContent = DATA.argo_test.length;
 
   const hw = DATA.heatwave_series[frame.day] || DATA.heatwave_series[DATA.heatwave_series.length - 1];
+  document.getElementById("kpiAnomaly").textContent = `${hw.anomaly >= 0 ? "+" : ""}${hw.anomaly.toFixed(2)}°C`;
+  document.getElementById("kpiCategory").textContent = "vs. climatology baseline";
+  const chip = document.getElementById("kpiChip");
+  chip.textContent = hw.category;
+  chip.className = `chip ${hw.category}`;
+
   Plotly.restyle("heatwaveChart", { x: [[frame.day]], y: [[hw.anomaly]] }, [1]);
 }
 

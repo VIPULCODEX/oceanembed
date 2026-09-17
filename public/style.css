@@ -457,6 +457,11 @@ button.ctrl:hover {
   margin-bottom: 16px;
 }
 
+.kpi-row-4 {
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 16px;
+}
+
 .kpi {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 55%), var(--panel);
   border: 1px solid var(--panel-border);
@@ -820,7 +825,8 @@ footer {
   }
 
   .kpi-row,
-  .kpi-row-3 {
+  .kpi-row-3,
+  .kpi-row-4 {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
@@ -873,7 +879,8 @@ footer {
 @media (max-width: 400px) {
 
   .kpi-row,
-  .kpi-row-3 {
+  .kpi-row-3,
+  .kpi-row-4 {
     grid-template-columns: 1fr;
   }
 }
