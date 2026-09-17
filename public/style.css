@@ -1,8 +1,9 @@
 :root {
   --bg: #071c19;
   --bg-alt: #0c2925;
-  --panel: #0f322d;
-  --panel-border: #1c4a41;
+  --panel: rgba(10, 36, 32, 0.72);        /* translucent -- lets ocean photo show through */
+  --panel-solid: #0f322d;                 /* solid fallback for non-blurred elements */
+  --panel-border: rgba(44, 95, 90, 0.55);
   --sea: #2e8b57;
   --sea-bright: #3fcf8e;
   --text: #e8f5f0;
@@ -11,9 +12,13 @@
   --watch: #e3c23c;
   --warning: #e58a3a;
   --severe: #e2543f;
+  --extreme: #b5203a;
   --font-display: 'Fraunces', 'Lora', Georgia, serif;
   --font-body: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
   --font: var(--font-body);
+  --card-radius: 18px;
+  --card-shadow: 0 10px 30px -4px rgba(0, 20, 16, 0.16), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 16px 42px -4px rgba(0, 20, 16, 0.24), 0 6px 18px -2px rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -131,6 +136,9 @@ h2 {
   padding: 8px 14px;
   border-radius: 999px;
   font-size: 13px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
 }
 
 .dot {
@@ -170,6 +178,8 @@ button.ctrl {
   border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
+  backdrop-filter: blur(8px) saturate(1.3);
+  -webkit-backdrop-filter: blur(8px) saturate(1.3);
 }
 
 button.ctrl:hover {
@@ -186,6 +196,8 @@ button.ctrl:hover {
   border-radius: 12px;
   font-size: 13px;
   margin-bottom: 18px;
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
   line-height: 1.55;
 }
 
@@ -211,6 +223,8 @@ button.ctrl:hover {
   padding: 12px 18px;
   margin-bottom: 16px;
   text-align: center;
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
 }
 
 .claim-main {
@@ -465,13 +479,17 @@ button.ctrl:hover {
 .kpi {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 55%), var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 12px;
+  border-radius: var(--card-radius);
   padding: 14px 16px;
-  transition: border-color 0.25s ease;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .kpi:hover {
   border-color: rgba(63, 207, 142, 0.35);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .kpi .label {
@@ -544,8 +562,12 @@ button.ctrl:hover {
 .panel {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 45%), var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 14px;
+  border-radius: var(--card-radius);
   padding: 16px 18px 8px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  transition: box-shadow 0.25s ease;
 }
 
 .panel h2 {
@@ -641,8 +663,11 @@ button.ctrl:hover {
 .source-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 55%), var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 12px;
+  border-radius: var(--card-radius);
   padding: 14px 16px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
 }
 
 .source-card h3 {
