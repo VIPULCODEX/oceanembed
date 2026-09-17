@@ -10,7 +10,7 @@ These are real satellite / reanalysis products. This project has a single,
 real-data-only pipeline -- there is no synthetic data path.
 
 Run `python real/export_real_data.py` after adding/refreshing files in
-real/data/ to regenerate public/data_real.json.
+dataset/raw/ to regenerate public/data_real.json.
 """
 import glob
 import os
@@ -25,11 +25,11 @@ LON_RANGE = (45, 105)
 
 HEATWAVE_CATEGORIES = [(0.5, "Watch"), (1.0, "Warning"), (1.5, "Severe"), (2.0, "Extreme")]
 
-# Raw source files live in real/data/ (gitignored -- large, regenerate
-# locally). Resolved relative to this module's own location, not the
-# caller's working directory, so it works regardless of where a script
-# that imports this is invoked from.
-DATA_DIR = Path(__file__).resolve().parent / "data"
+# Raw source files live in dataset/raw/ (gitignored -- large, regenerate
+# locally). Resolved relative to the repo root, not the caller's working
+# directory, so it works regardless of where a script that imports this
+# is invoked from.
+DATA_DIR = Path(__file__).resolve().parent.parent / "dataset" / "raw"
 MOSDAC_DIR = str(DATA_DIR / "MOSDAC")
 
 TARGET_RESOLUTION_DEG = 0.25  # the problem statement's required spatial resolution

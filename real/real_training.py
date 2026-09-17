@@ -3,7 +3,7 @@ Sea Green -- real training data. This is the sole training pipeline in
 this project; there is no synthetic data path.
 
 Builds actual (surface, subsurface) training pairs from the real files in
-this folder:
+dataset/raw/:
   - Sea Surface temp.nc                      real SST  (CMEMS thetao, ~0.49m)
   - Sea surface salinity.nc                   real SSS  (CMEMS so)
   - cmems_mod_glo_phy-cur_..._.nc             real surface currents (uo, vo)
@@ -42,9 +42,9 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-# Raw .nc source files live in real/data/, resolved relative to this
-# module's location (not the caller's working directory).
-DATA_DIR = Path(__file__).resolve().parent / "data"
+# Raw .nc source files live in dataset/raw/, resolved relative to the
+# repo root (not the caller's working directory).
+DATA_DIR = Path(__file__).resolve().parent.parent / "dataset" / "raw"
 
 LAT_RANGE = (5, 30)
 LON_RANGE = (45, 99.9)  # capped where SST/SSS/currents actually have data

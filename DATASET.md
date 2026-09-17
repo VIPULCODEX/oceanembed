@@ -7,11 +7,13 @@ satellite imagery is converted into the "compact satellite embedding"
 required by the problem statement. A representative sample of the
 dataset is committed alongside this document:
 
-- **[`real/sample_dataset.csv`](real/sample_dataset.csv)** — 25 rows produced directly by
+- **[`dataset/sample_dataset.csv`](dataset/sample_dataset.csv)** — 25 rows produced directly by
   `real.real_training.build_real_training_table()`, rounded for
   readability and otherwise unmodified. This is the exact table every
   model in this project is trained on. Source and provenance of the
-  underlying MOSDAC/CMEMS files are documented in `real/PROVENANCE.md`.
+  underlying MOSDAC/CMEMS files are documented in `dataset/PROVENANCE.md`.
+  The raw source files themselves live in `dataset/raw/` (gitignored —
+  large; see `dataset/README.md` for how to obtain them).
 
 This file is intentionally small enough to be opened and inspected
 directly on GitHub, so the dataset's structure can be verified without
@@ -41,7 +43,7 @@ The table below states which are genuinely available and which are not.
 
 Four of the five required inputs are real and modeled; SSH/SLA and
 surface winds remain unmodeled entirely, pending a real altimetry and
-wind product respectively (see `real/PROVENANCE.md` for an exact
+wind product respectively (see `dataset/PROVENANCE.md` for an exact
 accounting of which files exist and which are missing, and README.md,
 "Real data: MOSDAC and CMEMS," for the acquisition path for each).
 
@@ -151,4 +153,4 @@ finding.
 | Training orchestration (all 7 models, one call) | `real/real_training.py` → `train_real_and_evaluate()` |
 | Standard depth levels (prediction target) | `real/real_training.py` → `STANDARD_DEPTHS` |
 | Dashboard export (metrics, map animation, region clusters) | `real/export_real_results.py` |
-| Raw real-data source files and provenance record | `real/PROVENANCE.md`, `real/data/CHECKSUMS.sha256` |
+| Raw real-data source files and provenance record | `dataset/PROVENANCE.md`, `dataset/raw/CHECKSUMS.sha256` |

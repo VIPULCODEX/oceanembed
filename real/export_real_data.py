@@ -1,13 +1,13 @@
 """
 Bake real MOSDAC + CMEMS data into public/data_real.json for the static
-dashboard. Run after refreshing files in real/data/MOSDAC/ or the CMEMS
+dashboard. Run after refreshing files in dataset/raw/MOSDAC/ or the CMEMS
 .nc files:
 
     python real/export_real_data.py   (or: python -m real.export_real_data)
 
-The raw source files (real/data/MOSDAC/*.h5, real/data/*.nc) are large
+The raw source files (dataset/raw/MOSDAC/*.h5, dataset/raw/*.nc) are large
 (100s of MB) and gitignored -- only this compact derived JSON is committed.
-See real/PROVENANCE.md for source/checksum metadata on those raw files.
+See dataset/PROVENANCE.md for source/checksum metadata on those raw files.
 """
 import json
 import os

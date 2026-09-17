@@ -1,4 +1,4 @@
-# Data Provenance — `real/data/`
+# Data Provenance — `dataset/raw/`
 
 This document allows a reviewer to verify what the "real data" claim in
 this repository rests on, without requiring the raw files themselves,
@@ -8,7 +8,7 @@ approximately 800 MB each). The following is committed in their place:
 - This document — source, product ID, coverage, and per-file checksum for
   every real data file.
 - `CHECKSUMS.sha256` — machine-verifiable hashes, re-checkable with
-  `sha256sum -c real/data/CHECKSUMS.sha256` if the files are restored
+  `sha256sum -c dataset/raw/CHECKSUMS.sha256` if the files are restored
   locally (for example, after re-running the download).
 - The compact derived data these files produce: `public/data_real.json`
   (via `real/export_real_data.py`) and the real seven-model benchmark
@@ -22,7 +22,7 @@ ground truth comes from" below.
 
 ## Files
 
-| File (in `real/data/`) | Variable(s) | Product | Institution | Spatial coverage | Time range | Native resolution | Size | Downloaded |
+| File (in `dataset/raw/`) | Variable(s) | Product | Institution | Spatial coverage | Time range | Native resolution | Size | Downloaded |
 |---|---|---|---|---|---|---|---|---|
 | `cmems_mod_glo_phy-thetao_..._45.00E-105.00E_5.00N-30.00N_0.49-902.34m_2026-08-01-2026-08-27.nc` | `thetao` (35 depth levels, 0.49–902 m) | `GLOBAL_ANALYSISFORECAST_PHY_001_024` | Mercator Ocean International / Copernicus Marine Service | 5–30°N, 45–105°E (exact match to the specification's required extent) | 2026-08-01 to 2026-08-27, daily | 0.083° | 783 MB | 2026-08-27 |
 | `cmems_mod_glo_phy-cur_anfc_0.083deg_P1D-m_....nc` | `uo`, `vo` (surface currents) | `GLOBAL_ANALYSISFORECAST_PHY_001_024` | Mercator Ocean International / CMEMS | lat −45–30°N, lon 30–~100°E (a superset of the study region, cropped in code) | 2026-08-01 to 2026-08-27, daily | 0.083° | 156 MB | 2026-08-27 |
@@ -41,8 +41,7 @@ exactly, 721 points at 0.083° spacing). This is a specific, bounded data
 completeness gap rather than an error of ocean basin: every file listed
 here covers the Indian Ocean (30–105°E), and none overlaps the Pacific.
 
-Exact per-file hashes are recorded in `CHECKSUMS.sha256` in this
-directory.
+Exact per-file hashes are recorded in `dataset/raw/CHECKSUMS.sha256`.
 
 ## Where the Ground Truth Comes From
 
@@ -75,11 +74,11 @@ producing institution and is documented externally and citably:
 
 ## Regenerating This Manifest
 
-If the files in `real/data/` are refreshed, regenerate the checksum file
+If the files in `dataset/raw/` are refreshed, regenerate the checksum file
 with:
 
 ```bash
-cd real/data
+cd dataset/raw
 find . -type f \( -name "*.nc" -o -name "*.h5" \) -print0 | sort -z \
   | while IFS= read -r -d '' f; do sha256sum "$f" >> CHECKSUMS.sha256; done
 ```

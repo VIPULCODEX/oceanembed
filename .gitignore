@@ -4,11 +4,12 @@ __pycache__/
 .DS_Store
 .vercel
 
-# Raw real-data source files (real/data/MOSDAC/, real/data/*.nc). These
+# Raw real-data source files (dataset/raw/MOSDAC/, dataset/raw/*.nc). These
 # are large (100s of MB to approximately 800 MB each) and are excluded
 # from version control. The derived, compact JSON (public/data_real.json)
 # is committed instead; provenance and checksums for the raw files are
-# committed in real/PROVENANCE.md and real/data/CHECKSUMS.sha256.
+# committed in dataset/PROVENANCE.md and dataset/raw/CHECKSUMS.sha256.
+# See dataset/README.md for the full layout and a download link.
 # Regenerate locally with: python -m real.export_real_data
 MOSDAC/
 *.nc

@@ -68,9 +68,9 @@ To refresh the dashboard with new results, re-run `python -m real.export_real_re
 
 ## Real data: MOSDAC and CMEMS
 
-`real/real_data.py` reads real datasets from `real/data/` for the Live Monitor tab, and `real/export_real_data.py` compiles them into `public/data_real.json`. `real/real_training.py` and `real/export_real_results.py` read the same real source files (plus a real multi-depth subsurface extract) to train and evaluate all seven models for the Model and Results tabs. Raw source files are not committed (several hundred megabytes each, excluded via `.gitignore`); provenance for every raw file — product ID, institution, coverage, and checksum — is committed regardless, in `real/PROVENANCE.md` and `real/data/CHECKSUMS.sha256`, so the real-data claim can be verified independently from the repository alone, without requiring the multi-gigabyte source files.
+`real/real_data.py` reads real datasets from `dataset/raw/` for the Live Monitor tab, and `real/export_real_data.py` compiles them into `public/data_real.json`. `real/real_training.py` and `real/export_real_results.py` read the same real source files (plus a real multi-depth subsurface extract) to train and evaluate all seven models for the Model and Results tabs. Raw source files are not committed (several hundred megabytes each, excluded via `.gitignore`); provenance for every raw file — product ID, institution, coverage, and checksum — is committed regardless, in `dataset/PROVENANCE.md` and `dataset/raw/CHECKSUMS.sha256`, so the real-data claim can be verified independently from the repository alone, without requiring the multi-gigabyte source files. See `dataset/README.md` for the full layout and how to obtain the raw files.
 
-- **MOSDAC** — `real/data/MOSDAC/*.h5`, INSAT-3DR L2B SST (ISRO/SAC), half-hourly, 25 August 2026. Eight evenly-spaced real passes, cropped to the study region, drive the "Live Satellite Pass" panel.
+- **MOSDAC** — `dataset/raw/MOSDAC/*.h5`, INSAT-3DR L2B SST (ISRO/SAC), half-hourly, 25 August 2026. Eight evenly-spaced real passes, cropped to the study region, drive the "Live Satellite Pass" panel.
 - **CMEMS**, all `GLOBAL_ANALYSISFORECAST_PHY_001_024` / `_BGC_001_028` (Mercator Ocean), 1–27 August 2026:
   - `thetao` (SST) and `so` (SSS) — daily-mean basin trend and a live status indicator (single near-surface level, ~0.49 m, for the Live Monitor tab).
   - `uo`/`vo` (surface currents) — a real vector-field snapshot (direction and speed), one of the specification's five required input variables.
@@ -81,7 +81,7 @@ To refresh the dashboard with new results, re-run `python -m real.export_real_re
 
 All CMEMS grids used by the Live Monitor tab (SST/SSS/chlorophyll maps and the current vector field) are **genuinely regridded to the specification's required 0.25°** via `_regrid_to_target()` (`xarray.coarsen().mean()`, a real block-average from the native 0.083° grid, verified to land on exactly 0.25° spacing), rather than decimated or subsampled. Vector fields (uo/vo) are regridded as a single Dataset before speed and heading are derived, since averaging speed and heading separately would be physically incorrect. MOSDAC (native geostationary swath resolution) has not yet been regridded to a regular grid, since it only feeds the visual "Live Satellite Pass" panel, not any model input. The model-training pipeline (`real/real_training.py`) uses the native 0.083° CMEMS grid directly, rather than the regridded 0.25° product, since patch extraction benefits from the finer native resolution.
 
-To refresh with new files, place them in `real/data/MOSDAC/` or `real/data/` and re-run:
+To refresh with new files, place them in `dataset/raw/MOSDAC/` or `dataset/raw/` and re-run:
 
 ```bash
 pip install h5py xarray netCDF4   # only needed for this step
@@ -89,9 +89,9 @@ python -m real.export_real_data      # Live Monitor tab
 python -m real.export_real_results   # Model + Results tabs (retrains all 7 models)
 ```
 
-Then regenerate `real/data/CHECKSUMS.sha256` and update `real/PROVENANCE.md` (commands provided in that file), so the provenance record remains consistent with the files that produced the exports.
+Then regenerate `dataset/raw/CHECKSUMS.sha256` and update `dataset/PROVENANCE.md` (commands provided in that file), so the provenance record remains consistent with the files that produced the exports.
 
-Independent real Argo float validation (via `argopy`) and a real surface-wind/SSH source remain known gaps — see `real/PROVENANCE.md`, "Where the Ground Truth Comes From," for what this project's own real-data benchmark does and does not validate.
+Independent real Argo float validation (via `argopy`) and a real surface-wind/SSH source remain known gaps — see `dataset/PROVENANCE.md`, "Where the Ground Truth Comes From," for what this project's own real-data benchmark does and does not validate.
 
 ## Methodology notes
 
