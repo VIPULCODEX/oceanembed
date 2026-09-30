@@ -432,21 +432,50 @@ function drawModelSummary() {
   const best = Math.min(...summary.map((m) => m.avg_rmse));
   const baseColors = summary.map((m) => (m.avg_rmse === best ? "#3fcf8e" : "#4fa3e3"));
   const gd = document.getElementById("modelSummaryChart");
+
+  const wrapLabel = (s, max = 14) => {
+    const words = s.split(" ");
+    const lines = [];
+    let line = "";
+    for (const w of words) {
+      if ((line + " " + w).trim().length > max && line) {
+        lines.push(line);
+        line = w;
+      } else {
+        line = (line + " " + w).trim();
+      }
+    }
+    if (line) lines.push(line);
+    return lines.join("<br>");
+  };
+
   Plotly.newPlot(
     gd,
     [{
-      x: summary.map((m) => m.name), y: summary.map((m) => m.avg_rmse),
+      x: summary.map((m) => wrapLabel(m.name)),
+      y: summary.map((m) => m.avg_rmse),
+      customdata: summary.map((m) => m.name),
       type: "bar",
       marker: { color: baseColors, line: { color: "rgba(255,255,255,0)", width: 3 } },
       text: summary.map((m) => m.avg_rmse.toFixed(3)),
       textposition: "outside",
-      hovertemplate: "%{x}<br>mean RMSE %{y:.3f}°C<extra></extra>",
+      cliponaxis: false,
+      hovertemplate: "%{customdata}<br>mean RMSE %{y:.3f}°C<extra></extra>",
     }],
-    { ...PLOTLY_DARK, yaxis: { title: "Mean RMSE (°C), lower = better", gridcolor: "#1c4a41" }, xaxis: { tickangle: -15 }, showlegend: false },
+    {
+      ...PLOTLY_DARK,
+      margin: { l: 70, r: 20, t: 30, b: 60 },
+      yaxis: {
+        title: "Mean RMSE (°C), lower = better",
+        gridcolor: "#1c4a41",
+        range: [0, Math.max(...summary.map((m) => m.avg_rmse)) * 1.15],
+      },
+      xaxis: { tickangle: 0, automargin: true, tickfont: { size: 12 } },
+      showlegend: false,
+    },
     { displayModeBar: false, responsive: true }
   );
-  // Hovered bar gets a bright outline so the chart visibly responds to
-  // the cursor instead of sitting there as a flat picture.
+
   const n = summary.length;
   gd.on("plotly_hover", (e) => {
     const idx = e.points[0].pointIndex;
