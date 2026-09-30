@@ -190,7 +190,7 @@ button.ctrl:hover {
 .disclaimer {
   background: rgba(43, 35, 26, 0.65);
   border: 1px solid rgba(192, 114, 74, 0.35);
-  border-left: 4px solid var(--accent, #c0724a);
+  /* border-left: 4px solid var(--accent, #c0724a); */
   color: var(--text-dim);
   padding: 12px 18px;
   border-radius: 12px;
@@ -625,13 +625,13 @@ button.ctrl:hover {
 
 /* Progressive enhancement: browsers without :has() just skip the tint --
    the badge text/color still carries the signal on its own. */
-.panel:has(.data-badge.real) {
+/* .panel:has(.data-badge.real) {
   border-left: 3px solid var(--sea-bright);
 }
 
 .panel:has(.data-badge.sim) {
   border-left: 3px solid #4fa3e3;
-}
+} */
 
 .panel .desc {
   font-size: 12.5px;
