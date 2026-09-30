@@ -179,22 +179,53 @@ async function bootReal() {
     mode: "lines+markers", line: { color: "#3fcf8e", width: 2 }, marker: { size: 5 },
     name: "SST (°C)",
   };
-  const traces = [sstTrace];
-  const layout = {
-    ...PLOTLY_DARK,
-    xaxis: { title: "Date", gridcolor: "#1c4a41", ...SPIKE_AXIS },
-    yaxis: { title: "SST (°C)", gridcolor: "#1c4a41", titlefont: { color: "#3fcf8e" } },
-    legend: { orientation: "h", y: -0.25 },
+
+
+
+const traces = [sstTrace];
+const layout = {
+  ...PLOTLY_DARK,
+  margin: { l: 55, r: 55, t: 20, b: 70 },
+  xaxis: { title: "Date", gridcolor: "#1c4a41", ...SPIKE_AXIS },
+  yaxis: {
+    title: { text: "SST (°C)", standoff: 10 },
+    gridcolor: "#1c4a41",
+    automargin: true,
+    nticks: 6,
+    tickformat: ".2f",     // 28.40 instead of 28.4
+    hoverformat: ".2f",
+  },
+  legend: { orientation: "h", y: -0.25 },
+};
+if (sss) {
+  traces.push({
+    x: sss.series.map((d) => d.date), y: sss.series.map((d) => d.sss),
+    mode: "lines+markers", line: { color: "#4fa3e3", width: 2, dash: "dot" }, marker: { size: 5 },
+    name: "SSS (PSU)", yaxis: "y2",
+  });
+  layout.yaxis2 = {
+    title: { text: "SSS (PSU)", standoff: 15 },
+    overlaying: "y",
+    side: "right",
+    showgrid: false,
+    automargin: true,
+    nticks: 6,
+    tickmode: "sync",      // right ticks line up with the left gridlines
+    tickformat: ".2f",     // 34.50 instead of 34.5
   };
-  if (sss) {
-    traces.push({
-      x: sss.series.map((d) => d.date), y: sss.series.map((d) => d.sss),
-      mode: "lines+markers", line: { color: "#4fa3e3", width: 2, dash: "dot" }, marker: { size: 5 },
-      name: "SSS (PSU)", yaxis: "y2",
-    });
-    layout.yaxis2 = { title: "SSS (PSU)", overlaying: "y", side: "right", showgrid: false, titlefont: { color: "#4fa3e3" } };
-  }
-  Plotly.newPlot("realTrendChart", traces, layout, { displayModeBar: false, responsive: true });
+}
+Plotly.newPlot("realTrendChart", traces, layout, { displayModeBar: false, responsive: true });
+const mapEl = document.getElementById("realMapChart");
+let lastW = 0, raf;
+new ResizeObserver(([entry]) => {
+  const w = Math.round(entry.contentRect.width);
+  if (w === 0 || w === lastW) return;   // ignore hidden state and no-op changes
+  lastW = w;
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => Plotly.Plots.resize(mapEl));
+}).observe(mapEl.parentElement);
+
+
 
   drawCurrents();
   drawChlorophyll();
@@ -229,7 +260,7 @@ function drawCurrents() {
       yaxis: { title: "Latitude", range: [5, 30], gridcolor: "#1c4a41" },
       showlegend: false,
     },
-    { displayModeBar: false, responsive: true }
+    { displayModeBar: false, responsive: true}
   );
 }
 
